@@ -1,0 +1,16 @@
+#summary WebWorker is the common name for the Worker and SharedWorker classes described in the [http://www.whatwg.org/specs/web-workers/current-work/ WhatWG Web Worker spec]
+
+
+
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
