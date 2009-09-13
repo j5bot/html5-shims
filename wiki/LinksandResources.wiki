@@ -27,6 +27,7 @@ This page collects information on available shims, feature detection, and links 
 === For IE ===
   * IE HTML5 Element "Shiv" by John Resig ([http://ejohn.org/blog/html5-shiv/ original post]), maintained now on [http://code.google.com/p/html5shiv/ Google Code: html5shiv] by Remy Sharp
   * [http://code.google.com/p/explorercanvas Canvas for IE]
+  * [http://blogs.msdn.com/delay/archive/2009/08/24/using-one-platform-to-build-another-html-5-s-canvas-tag-implemented-using-silverlight.aspx HTML5Canvas - Canvas via Silverlight]
 
 
 == APIs ==
@@ -71,6 +72,7 @@ This page collects information on available shims, feature detection, and links 
   * [http://blog.whatwg.org/ WhatWG Blog]
   * [http://www.w3.org/2001/tag/2009/09/TagHTMLIssues.html Noah Mendelsohn Notes on HTML5 Issues]
   * [http://html5doctor.com/ HTML5 Doctor]
+  * [http://edward.oconnor.cx/2009/08/ignite.html#title HTML5 Features You Can Use Today]
 
 == Related? ==
   * [http://code.google.com/p/xmlhttprequest/ Standards-Compliant XmlHttpRequest]
