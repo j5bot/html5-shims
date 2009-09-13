@@ -66,6 +66,7 @@ This page collects information on available shims, feature detection, and links 
 == Commentary ==
   * [http://blog.whatwg.org/ WhatWG Blog]
   * [http://www.w3.org/2001/tag/2009/09/TagHTMLIssues.html Noah Mendelsohn Notes on HTML5 Issues]
+  * [http://html5doctor.com/ HTML5 Doctor]
 
 == Related? ==
   * [http://code.google.com/p/xmlhttprequest/ Standards-Compliant XmlHttpRequest]
