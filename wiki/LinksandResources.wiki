@@ -21,6 +21,8 @@ This page collects information on available shims, feature detection, and links 
   * [http://code.google.com/p/fiks-html5/ Fiks.html5]
   * [http://code.google.com/p/webforms2/ WebForms2]
   * [http://code.google.com/p/canvas-text/ Canvas Text]
+  * [http://github.com/trieloff/html5flash/ html5flash (video element)] (also see [http://gettingsoftware.posterous.com/html5flash-using-html5-video-and-audio-right blog post])
+
 
 === For IE ===
   * IE HTML5 Element "Shiv" by John Resig ([http://ejohn.org/blog/html5-shiv/ original post]), maintained now on [http://code.google.com/p/html5shiv/ Google Code: html5shiv] by Remy Sharp
@@ -31,9 +33,11 @@ This page collects information on available shims, feature detection, and links 
 
 === All / Common ===
   * [http://code.google.com/p/gear5/ gear5 HTML5 APIs on Gears]
+  * [http://code.google.com/p/fifthelement/ FifthElement common wrapper for Gears or HTML5]
+  * [http://github.com/cgriego/html5-scaffold HTML5 Scaffold]
   * [http://code.google.com/p/html5-now/ html5-now (nothing up yet)]
   * [http://code.google.com/p/html5-js/ html5-js (nothing up yet)]
-  * [http://code.google.com/p/fifthelement/ FifthElement common wrapper for Gears or HTML5]
+  * [http://github.com/ahume/html5-shim html5-shim@github (nothing up yet)]
 
 === Database ===
   * [http://bitbucket.org/malde/bespin-malde/src/16664c5e59e4/frontend/js/db/clientdb.js Ule Malde's WebDatabase implementation]
