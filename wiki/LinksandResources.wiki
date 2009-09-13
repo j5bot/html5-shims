@@ -1,0 +1,20 @@
+#summary Links and resources for HTML5, other shims and fallbacks available, feature support tests, etc.
+
+= Intro =
+
+This page collects information on available shims, feature detection, and links to the working drafts of the specs.
+
+
+= Specs =
+  * [http://dev.w3.org/html5/spec/Overview.html HTML5]
+  * [http://www.whatwg.org/specs/web-workers/current-work/ Web Workers]
+
+= Shims =
+
+= Other Stuff =
+
+== Feature Detection ==
+  * [http://www.modernizr.com/ Modernizer]
+
+== QA / Validation ==
+  * [http://blog.whatwg.org/quality-assurance-tools-for-html5 Blog post on WhatWG Blog]
