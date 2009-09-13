@@ -15,25 +15,39 @@ This page collects information on available shims, feature detection, and links 
 
 = Shims =
 == Elements ==
-  * "Shiv" by John Resig ([http://ejohn.org/blog/html5-shiv/ original post]), maintained now on [http://code.google.com/p/html5shiv/ Google Code: html5shiv] by Remy Sharp
+=== For IE ===
+  * IE HTML5 Element "Shiv" by John Resig ([http://ejohn.org/blog/html5-shiv/ original post]), maintained now on [http://code.google.com/p/html5shiv/ Google Code: html5shiv] by Remy Sharp
   * [http://code.google.com/p/explorercanvas Canvas for IE]
 
+
 == APIs ==
+
+=== All / Common ===
+  * [http://code.google.com/p/gear5/ gear5 HTML5 APIs on Gears]
+
+
 === Database ===
   * [http://bitbucket.org/malde/bespin-malde/src/16664c5e59e4/frontend/js/db/clientdb.js Ule Malde's WebDatabase implementation]
   * [http://code.google.com/p/webstorageportabilitylayer/ Web Storage Portability Layer provides a unified interface for local DB access on top of Gears or HTML5 WebDatabase]
 
+
 === Storage ===
   * [http://code.google.com/p/sessionstorage/ Andrea Giammarchi's window.name-based sessionStorage]
+
 
 = Other Stuff =
 
 == Feature Detection ==
   * [http://www.modernizr.com/ Modernizer]
 
+
 == QA / Validation ==
   * [http://blog.whatwg.org/quality-assurance-tools-for-html5 Blog post on WhatWG Blog]
+
 
 == Commentary ==
   * [http://blog.whatwg.org/ WhatWG Blog]
   * [http://www.w3.org/2001/tag/2009/09/TagHTMLIssues.html Noah Mendelsohn Notes on HTML5 Issues]
+
+== Related? ==
+  * [http://code.google.com/p/xmlhttprequest/ Standards-Compliant XmlHttpRequest]
