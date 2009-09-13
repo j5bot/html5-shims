@@ -14,9 +14,14 @@ This page collects information on available shims, feature detection, and links 
 
 
 = Shims =
+
 == Elements ==
+
 === All Browsers ===
   * [http://code.google.com/p/fiks-html5/ Fiks.html5]
+  * [http://code.google.com/p/webforms2/ WebForms2]
+
+
 === For IE ===
   * IE HTML5 Element "Shiv" by John Resig ([http://ejohn.org/blog/html5-shiv/ original post]), maintained now on [http://code.google.com/p/html5shiv/ Google Code: html5shiv] by Remy Sharp
   * [http://code.google.com/p/explorercanvas Canvas for IE]
@@ -36,6 +41,10 @@ This page collects information on available shims, feature detection, and links 
 
 === Storage ===
   * [http://code.google.com/p/sessionstorage/ Andrea Giammarchi's window.name-based sessionStorage]
+
+
+=== Web Worker ===
+  * [http://code.google.com/p/fakeworker-js/ fakeworker]
 
 
 = Other Stuff =
