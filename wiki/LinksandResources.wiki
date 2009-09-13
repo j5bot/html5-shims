@@ -8,6 +8,9 @@ This page collects information on available shims, feature detection, and links 
 = Specs =
   * [http://dev.w3.org/html5/spec/Overview.html HTML5]
   * [http://www.whatwg.org/specs/web-workers/current-work/ Web Workers]
+  * [http://dev.w3.org/html5/webdatabase/ HTML5 : Web Database]
+  * [http://dev.w3.org/html5/websockets/ HTML5 : Web Sockets]
+  * [http://dev.w3.org/html5/eventsource/ HTML5 : Server-Sent Events (EventSource)]
 
 = Shims =
 
@@ -18,3 +21,7 @@ This page collects information on available shims, feature detection, and links 
 
 == QA / Validation ==
   * [http://blog.whatwg.org/quality-assurance-tools-for-html5 Blog post on WhatWG Blog]
+
+== Commentary ==
+  * [http://blog.whatwg.org/ WhatWG Blog]
+  * [http://www.w3.org/2001/tag/2009/09/TagHTMLIssues.html Noah Mendelsohn Notes on HTML5 Issues]
