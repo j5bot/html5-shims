@@ -20,7 +20,7 @@ This page collects information on available shims, feature detection, and links 
 === All Browsers ===
   * [http://code.google.com/p/fiks-html5/ Fiks.html5]
   * [http://code.google.com/p/webforms2/ WebForms2]
-
+  * [http://code.google.com/p/canvas-text/ Canvas Text]
 
 === For IE ===
   * IE HTML5 Element "Shiv" by John Resig ([http://ejohn.org/blog/html5-shiv/ original post]), maintained now on [http://code.google.com/p/html5shiv/ Google Code: html5shiv] by Remy Sharp
@@ -31,6 +31,8 @@ This page collects information on available shims, feature detection, and links 
 
 === All / Common ===
   * [http://code.google.com/p/gear5/ gear5 HTML5 APIs on Gears]
+  * [http://code.google.com/p/html5-now/ html5-now (nothing up yet)]
+  * [http://code.google.com/p/html5-js/ html5-js (nothing up yet)]
 
 
 === Database ===
@@ -45,6 +47,10 @@ This page collects information on available shims, feature detection, and links 
 
 === Web Worker ===
   * [http://code.google.com/p/fakeworker-js/ fakeworker]
+
+
+=== Offline API (ApplicationCache) ===
+  * [http://code.google.com/p/html5-gears/ html5-gears]
 
 
 = Other Stuff =
