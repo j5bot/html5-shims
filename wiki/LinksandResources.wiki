@@ -15,6 +15,8 @@ This page collects information on available shims, feature detection, and links 
 
 = Shims =
 == Elements ==
+=== All Browsers ===
+  * [http://code.google.com/p/fiks-html5/ Fiks.html5]
 === For IE ===
   * IE HTML5 Element "Shiv" by John Resig ([http://ejohn.org/blog/html5-shiv/ original post]), maintained now on [http://code.google.com/p/html5shiv/ Google Code: html5shiv] by Remy Sharp
   * [http://code.google.com/p/explorercanvas Canvas for IE]
@@ -29,6 +31,7 @@ This page collects information on available shims, feature detection, and links 
 === Database ===
   * [http://bitbucket.org/malde/bespin-malde/src/16664c5e59e4/frontend/js/db/clientdb.js Ule Malde's WebDatabase implementation]
   * [http://code.google.com/p/webstorageportabilitylayer/ Web Storage Portability Layer provides a unified interface for local DB access on top of Gears or HTML5 WebDatabase]
+  * [http://code.google.com/p/sqljs/ SQLjs] (object/relational mapping on top of Gears,HTML5,etc.
 
 
 === Storage ===
