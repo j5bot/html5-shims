@@ -12,7 +12,7 @@
 </head>
 
 <body>
-	<h1>Web Workers API Implemented via Native JS and using Gears WorkerPool for Spawning Threads</h1>
+	<h1>Web Workers API Shim (on top of Google Gears)</h1>
 	<h2>Credits</h2>
 	<p class="authors">Jonathan 'J5' Cook</p>
 	<p>I wouldn't be working on this if <a href="http://webreflection.blogspot.com">Andrea Giammarchi</a> hadn't pointed me at it.</p>
@@ -44,7 +44,6 @@
 		<li>Gears HttpRequest object does not support synchronous/blocking downloads.  Solution is to prefetch what your worker needs and run the scripts as they are asked for, rather than ask, load and run.</li>
 		<li>Gears JS environment is missing some methods from Array object ... shift() and splice() didn't work for me at all.</li>
 		<li>Safari 4 native implementation of Worker doesn't support nested workers (inner/child workers)</li>
-		<li>I still suck at closures.  Damn.</li>
 		<li>throw new Error(...) is the new alert(...)</li>
 	</ul>
 		
