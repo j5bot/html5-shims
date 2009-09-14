@@ -53,7 +53,11 @@
 	<script type="text/javascript" src="/svn/trunk/src/DedicatedWorker.js"></script>
 	<script type="text/javascript">
 		function demo() {
-			var w = new Worker("/svn/trunk/demo/workers/child.js");
+			var w = new Worker("workers/child.js");
+			
+			// take a peek at the inner workings
+			document.getElementById("workercode").innerHTML = w._source;
+			
 			w.onmessage = function(event) {
 				document.getElementById("demoworkers").value+=event.data + "\n";
 			};
