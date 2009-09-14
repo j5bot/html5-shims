@@ -25,7 +25,7 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 			
 			url = url.charAt(0)==="/" ? window.location.href.split("/")[0]+url : (url.indexOf(":")!=-1 ? url : window.location.href.substring(0,window.location.href.lastIndexOf("/")+1) + url);
 
-			var source = [
+			this._source = [
 				wgsSource,
 				"var wgs = new DedicatedWorkerGlobalScope(\""+url+"\");",
 				"wgs.navigator = " + toSource.call(navigator)+";",
@@ -34,11 +34,7 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 				"wgs._loadSource({url: ['" + url + "'], "+
 				"callback: function(scripts){ wgs._scripts = scripts; wgs._execute('importScripts(\""+url+"\")'); } });"
 			].join("\n");
-		
-			if (typeof document !== "undefined") {
-				document.getElementById("workercode").innerHTML = source;
-			}
-			
+					
 			function escapeQuotes(s) {
 				return s.replace(/\\/ig,"\\\\").replace(/\'/ig,"\\'").replace(/\n/ig,"\\n");
 			}
@@ -62,7 +58,7 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 				}
 				/* create the Gears worker process */
 				this._ready = false;
-				this._id = workerPool.createWorker(source);
+				this._id = workerPool.createWorker(this._source);
 				workers["w"+this._id] = this;
 				/* upon receipt of this message, the WorkerGlobalScope will entangle with the worker and redefine it's onmessage method */
 				workerPool.sendMessage("{{syn}}",this._id);
@@ -134,10 +130,8 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 			    xhr.send(null);
 			    return xhr.responseText;
 			})(
-				
 				/* REPLACE WITH FULL PATH OF SCRIPT, OR SET THE REFERENCED GLOBAL VAR */
 				window["html5-shim.baseURL"] + "WorkerGlobalScope.js"
-			
 			)
 		);
 }
