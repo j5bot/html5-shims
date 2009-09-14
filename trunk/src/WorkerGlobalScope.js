@@ -215,7 +215,7 @@ SharedWorkerGlobalScope.prototype = DedicatedWorkerGlobalScope.prototype = Worke
 				}
 			} else {
 				/* gears Array doesn't have shift */
-				var l = urls[0];
+				var l = absolute(urls[0]);
 				urls = urls.slice(1);
 				load(l);
 			}
@@ -229,6 +229,11 @@ SharedWorkerGlobalScope.prototype = DedicatedWorkerGlobalScope.prototype = Worke
 				matches = re.exec(source);
 			}
 			urls = urls.concat(scripts);
+		}
+		
+		/* return the "absolute" version of the given URL */
+		function absolute(url) {
+			return url.charAt(0)==="/" ? this.location.href.split("/")[0]+url : (url.indexOf(":")!=-1 ? url : this.location.href.substring(0,this.location.href.lastIndexOf("/")+1) + url);
 		}
 
 		function load (url) {
