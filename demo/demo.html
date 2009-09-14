@@ -55,8 +55,8 @@
 		function demo() {
 			var w = new Worker("workers/child.js");
 			
-			// take a peek at the inner workings
-			document.getElementById("workercode").innerHTML = w._source;
+			// take a peek at the inner workings, if a shimmed worker
+			if (w._source) { document.getElementById("workercode").innerHTML = w._source; }
 			
 			w.onmessage = function(event) {
 				document.getElementById("demoworkers").value+=event.data + "\n";
