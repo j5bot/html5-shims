@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>Web Workers via Gears Demo</title>
+	<script type="text/javascript" src="/svn/trunk/src/gears_init.js"></script>
+	<script type="text/javascript">
+		window["html5-shim.baseURL"] = "/svn/trunk/src/";
+	</script>
+</head>
+
+<body>
+	<h1>Web Workers API Implemented via Native JS and using Gears WorkerPool for Spawning Threads</h1>
+	<h2>Credits</h2>
+	<p class="authors">Jonathan 'J5' Cook</p>
+	<p>I wouldn't be working on this if <a href="http://webreflection.blogspot.com">Andrea Giammarchi</a> hadn't pointed me at it.</p>
+	
+	<h2>Demo</h2>
+	<p>Click the button below to demo this thing.</p>
+		
+	<textarea rows="8" cols="100" id="demoworkers"></textarea>
+	<p><input type="button" name="demo" value="DEMO" onclick="demo()" /></p>
+	
+	<h2>Information</h2>
+	<p>A class/constructor implements the worker's internal state (<a href="WorkerGlobalScope.js">WorkerGlobalScope</a>) according to the <a href="http://www.whatwg.org/specs/web-workers/current-work/">WebWorker API</a></p>
+	<p>A worker class which instantiates the new worker thread and and the managing class (<a href="DedicatedWorker.js">DedicatedWorker</a>)</p>
+	
+	<h3>What's Not Done</h3>
+	<p>Some stuff from the API is not yet implemented:</p>
+	<ul>
+		<li>Implementing the communication between Worker and WorkerGlobalScope via MessagePort objects...</li>
+		<li>implementing SharedWorker (which requires MessagePorts and may or may not be possible ... we'll see)</li>
+		<li>onerror handlers</li>
+		<li>The internal list of Documents that the API says the Worker keeps.  That part seriously doesn't make sense to me.</li>
+		<li>The close() method of the worker which tells the WorkerGlobalScope to quit, etc.</li>
+		<li>The database methods available to WebWorkers via HTML5</li>
+	</ul>
+	
+	<h3>Lessons Learned</h3>
+	<p>A few items I learned working on this code:</p>
+	<ul>
+		<li>Gears HttpRequest object does not support synchronous/blocking downloads.  Solution is to prefetch what your worker needs and run the scripts as they are asked for, rather than ask, load and run.</li>
+		<li>Gears JS environment is missing some methods from Array object ... shift() and splice() didn't work for me at all.</li>
+		<li>Safari 4 native implementation of Worker doesn't support nested workers (inner/child workers)</li>
+		<li>I still suck at closures.  Damn.</li>
+		<li>throw new Error(...) is the new alert(...)</li>
+	</ul>
+		
+	<h3>Worker's Internal Code</h3>
+	<textarea rows="30" cols="100" id="workercode"></textarea>
+	
+	<script type="text/javascript" src="/svn/trunk/src/DedicatedWorker.js"></script>
+	<script type="text/javascript">
+		function demo() {
+			var w = new Worker("/svn/trunk/demo/workers/child.js");
+			w.onmessage = function(event) {
+				document.getElementById("demoworkers").value+=event.data + "\n";
+			};
+		}
+	</script>
+</body>
+</html>
