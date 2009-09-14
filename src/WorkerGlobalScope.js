@@ -216,7 +216,7 @@ SharedWorkerGlobalScope.prototype = DedicatedWorkerGlobalScope.prototype = Worke
 				}
 			} else {
 				/* gears Array doesn't have shift */
-				var l = absolute(urls[0]);
+				var l = urls[0];
 				urls = urls.slice(1);
 				load(l);
 			}
@@ -241,7 +241,7 @@ SharedWorkerGlobalScope.prototype = DedicatedWorkerGlobalScope.prototype = Worke
 			if (!scripts[url]) {
 				if (urls.length===0 && inprogress) { inprogress = false; }
 				var xhr = new XMLHttpRequest();
-				xhr.open("get",url,true);
+				xhr.open("get",absolute(url),true);
 				xhr.onreadystatechange = function() {
 					if (xhr.readyState===4) {
 						scripts[url]={source: xhr.responseText, loaded: true};
