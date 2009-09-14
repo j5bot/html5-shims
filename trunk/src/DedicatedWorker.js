@@ -23,7 +23,6 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 		function DedicatedWorker(url) {
 			this._ready = false;
 			
-			/* make URL absolute */
 			url = url.charAt(0)==="/" ? window.location.href.split("/")[0]+url : (url.indexOf(":")!=-1 ? url : window.location.href.substring(0,window.location.href.lastIndexOf("/")+1) + url);
 
 			var source = [
