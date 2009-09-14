@@ -206,7 +206,8 @@ SharedWorkerGlobalScope.prototype = DedicatedWorkerGlobalScope.prototype = Worke
 			inprogress = true,
 		
 			XMLHttpRequest = this.XMLHttpRequest,
-			re = /importScripts\(["']{1}([^"']*)["']{1}\)/mig;
+			re = /importScripts\(["']{1}([^"']*)["']{1}\)/mig,
+			location = this.location;
 
 		function loadMore () {
 			if (urls.length === 0) {
@@ -233,7 +234,7 @@ SharedWorkerGlobalScope.prototype = DedicatedWorkerGlobalScope.prototype = Worke
 		
 		/* return the "absolute" version of the given URL */
 		function absolute(url) {
-			return url.charAt(0)==="/" ? this.location.href.split("/")[0]+url : (url.indexOf(":")!=-1 ? url : this.location.href.substring(0,this.location.href.lastIndexOf("/")+1) + url);
+			return url.charAt(0)==="/" ? location.href.split("/")[0]+url : (url.indexOf(":")!=-1 ? url : location.href.substring(0,location.href.lastIndexOf("/")+1) + url);
 		}
 
 		function load (url) {
