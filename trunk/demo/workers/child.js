@@ -10,6 +10,6 @@ w.onmessage = function (event) {
 	postMessage("data resent from nested worker B through it's parent: " + event.data);
 };
 postMessage("nested worker B created, now importing a script");
-importScripts("import.js");
+importScripts("../scripts/import.js");
 postMessage("worker A setting a timer");
 setTimeout(function(){postMessage("worker A timer triggered"); },4000);
