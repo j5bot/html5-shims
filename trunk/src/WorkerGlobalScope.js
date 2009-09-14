@@ -183,7 +183,7 @@ function Navigator() {
 }
 */
 
-/* no ideas! */
+/* TODO */
 function ApplicationCache() {
 	
 }
@@ -194,6 +194,8 @@ SharedWorkerGlobalScope.prototype = DedicatedWorkerGlobalScope.prototype = Worke
 	/* Execute the given code in the worker global scope (using with) */
 	_execute: function(source) {
 		/* debugging code: this.self.postMessage(source.toSource()); */
+		/* executing an empty script will throw an error ... when we find an empty script we put a comment in there */
+		if (source.length===0) { throw new Error("empty source provided, cannot executed"); }
 		Function("with (this.self) { " + source + " }").call(this);
 	},
 	
@@ -244,8 +246,12 @@ SharedWorkerGlobalScope.prototype = DedicatedWorkerGlobalScope.prototype = Worke
 				xhr.open("get",absolute(url),true);
 				xhr.onreadystatechange = function() {
 					if (xhr.readyState===4) {
-						scripts[url]={source: xhr.responseText, loaded: true};
-						test(xhr.responseText);
+						if (xhr.responseText.length!==0) {
+							scripts[url]={source: xhr.responseText, loaded: true};
+							test(xhr.responseText);
+							} else {
+							scripts[url]={source:"/* empty script */", loaded: true};
+						}
 						loadMore();
 					}
 				};
@@ -295,7 +301,7 @@ SharedWorkerGlobalScope.prototype = DedicatedWorkerGlobalScope.prototype = Worke
 		*/
 		/* the script is read from a cache generated when the WorkerGlobalScope is created */
 		for(var i = 0, length = arguments.length; i < length; ++i) {
-	        this._execute(this._scripts[ arguments[i] ].source);
+        	this._execute(this._scripts[ arguments[i] ].source);
 		}
 	},	
 	
