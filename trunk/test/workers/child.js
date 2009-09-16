@@ -16,7 +16,8 @@ function buildOnMessageHandler(callback) {
 onmessage = function (event) {
 	testingRole = event.data;
 	// post the results of running tests back to the worker
-	postMessage(jsUnity.run(dedicatedWorkerTests()));
+	var results = jsUnity.run(dedicatedWorkerTests);
+	postMessage(results);
 };
 
 /* Load Test Suite */
