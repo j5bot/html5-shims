@@ -47,7 +47,7 @@ function dedicatedWorkerTests() {
 
 	// test that the reference "self" is defined as the global scope
 	function testSelf() {
-		assertIdentical(self,this,"self is the global scope");
+		assertIdentical(self,this,"self is the global scope: " + this.toSource());
 	}
 
 	// WorkerGlobalScope objects should not be visible from inside the worker
@@ -58,7 +58,7 @@ function dedicatedWorkerTests() {
 	}
 	
 	function testWorker() {
-		if (testingRole !== maxNext) {
+		if (testingRole !== maxNest) {
 			assertNotUndefined(Worker,"worker is defined");
 			var w = new Worker("child.js");
 			
