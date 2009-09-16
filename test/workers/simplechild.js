@@ -3,7 +3,7 @@ onmessage = function (event) {
 };
 
 /* Load Test Suite */
-importScripts("../jsunity/jsunity.js");
+/* importScripts("../jsunity/jsunity.js");
 
 jsUnity.attachAssertions();
 jsUnity.log = function (msg) {
@@ -11,4 +11,4 @@ jsUnity.log = function (msg) {
 };
 jsUnity.error = function(msg) {
 	postMessage("JSUNITY: ERROR: " + msg);
-};
+}; */
