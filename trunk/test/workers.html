@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>Web Workers via Gears Test</title>
+	<script type="text/javascript" src="/svn/trunk/src/gears_init.js"></script>
+	<script type="text/javascript" src="/svn/trunk/test/jsunity/jsunity.js"></script>
+	<script type="text/javascript">
+		window["html5-shim.baseURL"] = "/svn/trunk/src/";
+	</script>
+</head>
+
+<body>
+	<h1>Web Workers API Shim (on top of Google Gears)</h1>
+	<h2>Credits</h2>
+	<p class="authors">Jonathan 'J5' Cook</p>
+	<p>I wouldn't be working on this if <a href="http://webreflection.blogspot.com">Andrea Giammarchi</a> hadn't pointed me at it.</p>
+	
+	<h2>Demo</h2>
+		
+	<textarea rows="8" cols="100" id="demoworkers"></textarea>
+	<p><input type="button" name="demo" value="DEMO" onclick="demo()" /></p>
+		
+	<script type="text/javascript" src="/svn/trunk/src/DedicatedWorker.js"></script>
+	<script type="text/javascript">
+		function demo() {
+			var w = new Worker("workers/child.js");
+			w.onmessage = function(event) {
+				document.getElementById("demoworkers").value+=event.data + "\n";
+				
+				// for all tests, echo back
+				if (event.data.indexOf("testing") != -1) { w.postMessage(event.data); }
+			};
+			
+			// start the tests, providing the role to the first child worker
+			w.postMessage("worker");
+		}
+	</script>
+</body>
+</html>
