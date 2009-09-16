@@ -94,7 +94,7 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 			return this;
 		}
 		DedicatedWorker.prototype.postMessage = function (o) {
-			if (workerPool) {
+			if (workerPool && this._id !== null) {
 				workerPool.sendMessage(o,this._id);
 			} else {
 				queue.push(o);
