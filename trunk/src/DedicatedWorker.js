@@ -47,6 +47,16 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 				}
 				return "{"+s.join(",")+"}";
 			}
+			
+			function shift(t) {
+				if (Array.prototype.shift) {
+					return Array.prototype.shift.call(this);
+				} else {
+					var f = t[0];
+					t = t.slice(1);
+					return f;
+				}
+			}
 		
 			function defineOnMessageHandler() {
 				if (arguments.length > 0) {
@@ -63,6 +73,11 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 				/* upon receipt of this message, the WorkerGlobalScope will entangle with the worker and redefine it's onmessage method */
 				workerPool.sendMessage("{{syn}}",this._id);
 				/* debug code: throw new Error("worker pool for " + this._id + " has handler: " + (wom || wgs.wom || this.wom).toSource()); */
+				
+				/* dequeue messages waiting to be sent */
+				while (queue.length > 0) {
+					postMessage(shift(queue));
+				}
 			}
 
 			/* we can only create the worker after the onmessage handler is defined
@@ -79,7 +94,11 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 			return this;
 		}
 		DedicatedWorker.prototype.postMessage = function (o) {
-			workerPool.sendMessage(o,this._id);
+			if (workerPool) {
+				workerPool.sendMessage(o,this._id);
+			} else {
+				queue.push(o);
+			}
 		};
 	
 		/* establish / reference the worker pool */
@@ -88,6 +107,7 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 				var workerPool = google.gears.workerPool || google.gears.factory.create("beta.workerpool");
 				var workers = window._workers || {};
 				var wom = null;
+				var queue = []; // queue of messages waiting to be sent
 	
 				/* avoid redefining the onmessage handler for workers running in gears */
 				if (!google.gears.workerPool) {
