@@ -42,7 +42,7 @@ function dedicatedWorkerTests() {
 
 	// test that the window object has been hidden properly
 	function testWindow () {
-		assertUndefined(window, "window is undefined");
+		assertEqual("undefined",typeof(window), "window is undefined");
 	}
 
 	// test that the reference "self" is defined as the global scope
@@ -52,13 +52,13 @@ function dedicatedWorkerTests() {
 
 	// WorkerGlobalScope objects should not be visible from inside the worker
 	function testWGSVisibility() {
-		assertUndefined(WorkerGlobalScope, "worker global scope is undefined");
-		assertUndefined(DedicatedWorkerGlobalScope, "dedicated worker global scope is undefined");
-		assertUndefined(SharedWorkerGlobalScope, "shared worker global scope is undefined");
+		assertEqual("undefined",typeof(WorkerGlobalScope), "worker global scope is undefined");
+		assertEqual("undefined",typeof(DedicatedWorkerGlobalScope), "dedicated worker global scope is undefined");
+		assertEqual("undefined",typeof(SharedWorkerGlobalScope), "shared worker global scope is undefined");
 	}
 	
 	function testWorker() {
-		if (testingRoles !== maxNext) {
+		if (testingRole !== maxNext) {
 			assertNotUndefined(Worker,"worker is defined");
 			var w = new Worker("child.js");
 			
