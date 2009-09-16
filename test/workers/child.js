@@ -3,9 +3,9 @@ var maxNest = "worker-child-child-child";
 
 function buildOnMessageHandler(callback) {
 	return function(event) {
-		if (event.data.indexOf("testing")===0) {
+		if (event.data.indexOf && event.data.indexOf("testing")===0) {
 			postMessage(event.data.replace("testing","tested"));
-		} else if (event.data.indexOf("tested")===0) {
+		} else if (event.data.indexOf && event.data.indexOf("tested")===0) {
 			callback(event);
 		} else {
 			// do nothing?

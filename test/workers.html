@@ -31,7 +31,7 @@
 				document.getElementById("demoworkers").value+=event.data + "\n";
 				
 				// for all tests, echo back
-				if (event.data.indexOf("testing") != -1) { w.postMessage(event.data.replace("testing","tested")); }
+				if (event.data.indexOf && event.data.indexOf("testing") != -1) { w.postMessage(event.data.replace("testing","tested")); }
 			};
 			
 			// start the tests, providing the role to the first child worker
