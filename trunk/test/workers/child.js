@@ -1,5 +1,5 @@
 var testingRole = "undefined";
-var maxNest = "worker-child-child-child";
+var maxNest = "worker-child-child-child-child-child-child-child-child-child";
 
 function buildOnMessageHandler(callback) {
 	return function(event) {
@@ -86,6 +86,7 @@ function dedicatedWorkerPostMessageTests() {
 
 		// send message
 		postMessage("testing postMessage");
+		var i = 0;
 		while (i < 100000) {
 			i++;
 		}
@@ -108,6 +109,7 @@ function dedicatedWorkerWorkerTests() {
 		
 			// send it a message, triggering the onmessage handler above
 			w.postMessage("testing " + testingRole + "-child");
+			var i = 0;
 			while (i < 100000) {
 				i++;
 			}
