@@ -24,40 +24,46 @@ onmessage = function (event) {
 importScripts("../jsunity/jsunity.js");
 
 jsUnity.attachAssertions();
+jsUnity.log = function (msg) {
+	postMessage("JSUNITY: " + msg);
+};
+jsUnity.error = function(msg) {
+	postMessage("JSUNITY: ERROR: " + msg);
+};
 
 function dedicatedWorkerTests() {
 	
 	// test importScripts functionality
 	function testImport () {
 		importScripts("../scripts/import.js");
-		assertNotUndefined("function imported by import.js",importedFunction);
-		assertEqual("imported function succeeds",importedFunction(),"i was imported");
+		assertNotUndefined(importedFunction, "function imported by import.js");
+		assertEqual("i was imported", importedFunction(), "imported function succeeds");
 	}
 
 	// test that the window object has been hidden properly
 	function testWindow () {
-		assertUndefined("window is undefined",window);
+		assertUndefined(window, "window is undefined");
 	}
 
 	// test that the reference "self" is defined as the global scope
 	function testSelf() {
-		assertIdentical("self is the global scope",self,this);
+		assertIdentical(self,this,"self is the global scope");
 	}
 
 	// WorkerGlobalScope objects should not be visible from inside the worker
 	function testWGSVisibility() {
-		assertUndefined("worker global scope is undefined",WorkerGlobalScope);
-		assertUndefined("dedicated worker global scope is undefined",DedicatedWorkerGlobalScope);
-		assertUndefined("shared worker global scope is undefined",SharedWorkerGlobalScope);
+		assertUndefined(WorkerGlobalScope, "worker global scope is undefined");
+		assertUndefined(DedicatedWorkerGlobalScope, "dedicated worker global scope is undefined");
+		assertUndefined(SharedWorkerGlobalScope, "shared worker global scope is undefined");
 	}
 	
 	function testWorker() {
 		if (testingRoles !== maxNext) {
-			assertNotUndefined("worker is defined",Worker);
+			assertNotUndefined(Worker,"worker is defined");
 			var w = new Worker("child.js");
 			
 			w.onmessage = buildOnMessageHandler(function (event) {
-				assertEqual("testing " + testingRole + "-child", event.data, "tested " + testingRole + "-child");
+				assertEqual("tested " + testingRole + "-child", event.data, "testing " + testingRole + "-child");
 			});
 			
 			// establish the worker's role
@@ -74,7 +80,7 @@ function dedicatedWorkerTests() {
 		
 		// expect identical reply
 		onmessage = buildOnMessageHandler(function (event) {
-			assertEqual("reply is identical to posted message", event.data, "tested postMessage");
+			assertEqual("tested postMessage",event.data,"reply is identical to posted message");
 		});
 
 		// send message
