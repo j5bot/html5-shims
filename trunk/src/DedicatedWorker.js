@@ -76,7 +76,7 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 				
 				/* dequeue messages waiting to be sent */
 				while (queue.length > 0) {
-					postMessage(shift(queue));
+					this.postMessage(shift(queue));
 				}
 			}
 
