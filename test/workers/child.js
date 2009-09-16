@@ -28,7 +28,7 @@ onmessage = function (event) {
 	},500);
 	setTimeout(function () {
 		postMessage(jsUnity.run(dWWT));
-	},1000)
+	},1000);
 };
 
 /* Load Test Suite */
@@ -41,10 +41,6 @@ jsUnity.log = function (msg) {
 jsUnity.error = function(msg) {
 	postMessage("JSUNITY: ERROR: " + msg);
 };
-var dWCT = jsUnity.compile(dedicatedWorkerCoreTests),
-	dWPT = jsUnity.compile(dedicatedWorkerPostMessageTests),
-	dWWT = jsUnity.compile(dedicatedWorkerWorkerTests);
-dWCT.scope = dWPT.scope = dWWT.scope = this;
 
 function dedicatedWorkerCoreTests() {
 	
@@ -116,3 +112,8 @@ function dedicatedWorkerWorkerTests() {
 		}
 	}
 }
+
+var dWCT = jsUnity.compile(dedicatedWorkerCoreTests),
+	dWPT = jsUnity.compile(dedicatedWorkerPostMessageTests),
+	dWWT = jsUnity.compile(dedicatedWorkerWorkerTests);
+dWCT.scope = dWPT.scope = dWWT.scope = this;
