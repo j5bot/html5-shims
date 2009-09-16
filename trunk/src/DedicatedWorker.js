@@ -75,7 +75,6 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 				/* debug code: throw new Error("worker pool for " + this._id + " has handler: " + (wom || wgs.wom || this.wom).toSource()); */
 				
 				/* dequeue messages waiting to be sent */
-				debugger;
 				while (queue.length > 0) {
 					this.postMessage(shift(queue));
 				}
