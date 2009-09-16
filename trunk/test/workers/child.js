@@ -16,7 +16,7 @@ function buildOnMessageHandler(callback) {
 onmessage = function (event) {
 	testingRole = event.data;
 	// post the results of running tests back to the worker
-	var results = jsUnity.run(dedicatedWorkerTests);
+	var results = jsUnity.run(dWT);
 	postMessage(results);
 };
 
@@ -30,6 +30,8 @@ jsUnity.log = function (msg) {
 jsUnity.error = function(msg) {
 	postMessage("JSUNITY: ERROR: " + msg);
 };
+var dWT = jsUnity.compile(dedicatedWorkerTests);
+dWT.scope = this;
 
 function dedicatedWorkerTests() {
 	
