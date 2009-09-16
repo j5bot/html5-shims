@@ -74,11 +74,6 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 				/* upon receipt of this message, the WorkerGlobalScope will entangle with the worker and redefine it's onmessage method */
 				workerPool.sendMessage("{{syn}}",this._id);
 				/* debug code: throw new Error("worker pool for " + this._id + " has handler: " + (wom || wgs.wom || this.wom).toSource()); */
-				
-				/* dequeue messages waiting to be sent */
-				while (this._queue.length > 0) {
-					this.postMessage(shift(queue));
-				}
 			}
 
 			/* we can only create the worker after the onmessage handler is defined
@@ -115,7 +110,13 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 						if (workers && workers["w"+msg.sender]) {
 							/* acknowledging an entanglement */
 							if (msg.body == "{{ack}}") {
-								workers["w"+msg.sender]._ready = true;
+								with (workers["w"+msg.sender]) {
+									_ready = true;
+									/* dequeue messages waiting to be sent */
+									while (_queue.length > 0) {
+										postMessage(shift(_queue));
+									}
+								}
 							} else {
 								/* receiving a message */
 								workers["w"+msg.sender].onmessage({data:msg.body});
