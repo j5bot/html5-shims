@@ -14,19 +14,19 @@
 
 <body>
 	<h1>Web Workers API Shim (on top of Google Gears)</h1>
-	<h2>Credits</h2>
-	<p class="authors">Jonathan 'J5' Cook</p>
-	<p>I wouldn't be working on this if <a href="http://webreflection.blogspot.com">Andrea Giammarchi</a> hadn't pointed me at it.</p>
-	
-	<h2>Demo</h2>
 		
 	<textarea rows="8" cols="100" id="demoworkers"></textarea>
-	<p><input type="button" name="demo" value="DEMO" onclick="demo()" /></p>
+	
+	<h3>A Peek at the Worker's Internal Code</h3>
+	<textarea rows="30" cols="100" id="workercode"></textarea>
 		
 	<script type="text/javascript" src="/svn/trunk/src/DedicatedWorker.js"></script>
 	<script type="text/javascript">
-		function demo() {
-			var w = new Worker("/svn/trunk/test/workers/simplechild.js");
+			var w = new Worker("workers/simplechild.js");
+
+			// take a peek at the inner workings, if a shimmed worker
+			if (w._source) { document.getElementById("workercode").innerHTML = w._source; }
+
 			w.onmessage = function(event) {
 				document.getElementById("demoworkers").value+=event.data + "\n";
 				
@@ -36,7 +36,6 @@
 			
 			// start the tests, providing the role to the first child worker
 			w.postMessage("worker");
-		}
 	</script>
 </body>
 </html>
