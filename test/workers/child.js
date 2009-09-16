@@ -57,7 +57,7 @@ function dedicatedWorkerTests() {
 			var w = new Worker("child.js");
 			
 			w.onmessage = buildOnMessageHandler(function (event) {
-				assertEquals("testing " + testingRole + "-child", event.data, "tested " + testingRole + "-child");
+				assertEqual("testing " + testingRole + "-child", event.data, "tested " + testingRole + "-child");
 			});
 			
 			// establish the worker's role
@@ -74,7 +74,7 @@ function dedicatedWorkerTests() {
 		
 		// expect identical reply
 		onmessage = buildOnMessageHandler(function (event) {
-			assertEquals("reply is identical to posted message", event.data, "tested postMessage");
+			assertEqual("reply is identical to posted message", event.data, "tested postMessage");
 		});
 
 		// send message
