@@ -22,6 +22,7 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 	Worker = (function InitWorker(window,navigator,wgsSource){
 		function DedicatedWorker(url) {
 			this._ready = false;
+			this._queue = [];
 			
 			url = url.charAt(0)==="/" ? window.location.href.split("/")[0]+url : (url.indexOf(":")!=-1 ? url : window.location.href.substring(0,window.location.href.lastIndexOf("/")+1) + url);
 
@@ -75,7 +76,8 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 				/* debug code: throw new Error("worker pool for " + this._id + " has handler: " + (wom || wgs.wom || this.wom).toSource()); */
 				
 				/* dequeue messages waiting to be sent */
-				while (queue.length > 0) {
+				debugger;
+				while (this._queue.length > 0) {
 					this.postMessage(shift(queue));
 				}
 			}
@@ -97,7 +99,7 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 			if (workerPool && this._id !== null) {
 				workerPool.sendMessage(o,this._id);
 			} else {
-				queue.push(o);
+				this._queue.push(o);
 			}
 		};
 	
@@ -107,7 +109,6 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 				var workerPool = google.gears.workerPool || google.gears.factory.create("beta.workerpool");
 				var workers = window._workers || {};
 				var wom = null;
-				var queue = []; // queue of messages waiting to be sent
 	
 				/* avoid redefining the onmessage handler for workers running in gears */
 				if (!google.gears.workerPool) {
