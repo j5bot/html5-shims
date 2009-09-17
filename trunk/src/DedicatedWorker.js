@@ -82,6 +82,7 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 		DedicatedWorker.prototype.postMessage = function (o) {
 			document.getElementById("demoworkers").innerHTML+=("this._id: " + this._id);
 			if (workerPool && this._id !== null && this._ready) {
+				document.getElementById("demoworkers").innerHTML+=("sending message: " + o);
 				workerPool.sendMessage(o,this._id);
 			} else {
 				document.getElementById("demoworkers").innerHTML+=("queueing message: " + o);
