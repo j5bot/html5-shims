@@ -90,7 +90,7 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 			return this;
 		}
 		DedicatedWorker.prototype.postMessage = function (o) {
-			console.log("this._id: " + this._id);
+			document.getElementById("demoworkers").innerHTML+=("this._id: " + this._id);
 			if (workerPool && this._id !== null) {
 				workerPool.sendMessage(o,this._id);
 			} else {
