@@ -93,7 +93,7 @@ function WorkerGlobalScope (url) {
                     } else if (msg.sender === wgs._parent){
                     /* message coming from the parent */
                         wgs.onmessage({data:msg.body});
-						throw new Error("msg: " + msg.body);
+						throw new Error("msg: " + msg.body + ", " + wgs.onmessage.toSource());
                     } else {
                         /*
                         message is not from a parent or child worker
