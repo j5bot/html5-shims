@@ -80,12 +80,12 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 			return this;
 		}
 		DedicatedWorker.prototype.postMessage = function (o) {
-			document.getElementById("demoworkers").innerHTML+=("this._id: " + this._id);
+			if (document) document.getElementById("demoworkers").innerHTML+=("this._id: " + this._id);
 			if (workerPool && this._id !== null && this._ready) {
-				document.getElementById("demoworkers").innerHTML+=("sending message: " + o);
+				if (document) document.getElementById("demoworkers").innerHTML+=("sending message: " + o);
 				workerPool.sendMessage(o,this._id);
 			} else {
-				document.getElementById("demoworkers").innerHTML+=("queueing message: " + o);
+				if (document) document.getElementById("demoworkers").innerHTML+=("queueing message: " + o);
 				this._queue.push(o);
 			}
 		};
@@ -116,7 +116,7 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 								with (workers["w"+msg.sender]) {
 									_ready = true;
 									/* dequeue messages waiting to be sent */
-									document.getElementById("demoworkers").innerHTML+=("queue length: " + _queue.length);
+									if (document) document.getElementById("demoworkers").innerHTML+=("queue length: " + _queue.length);
 									while (_queue.length > 0) {
 										postMessage(shift(_queue));
 									}
