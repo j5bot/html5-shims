@@ -90,9 +90,11 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 			return this;
 		}
 		DedicatedWorker.prototype.postMessage = function (o) {
+			console.log("this._id: " + this._id);
 			if (workerPool && this._id !== null) {
 				workerPool.sendMessage(o,this._id);
 			} else {
+				console.log("queueing message: " + o);
 				this._queue.push(o);
 			}
 		};
@@ -113,6 +115,7 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 								with (workers["w"+msg.sender]) {
 									_ready = true;
 									/* dequeue messages waiting to be sent */
+									console.log("queue length: " + _queue.length);
 									while (_queue.length > 0) {
 										postMessage(shift(_queue));
 									}
