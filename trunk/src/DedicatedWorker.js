@@ -48,16 +48,6 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 				}
 				return "{"+s.join(",")+"}";
 			}
-			
-			function shift(t) {
-				if (Array.prototype.shift) {
-					return Array.prototype.shift.call(this);
-				} else {
-					var f = t[0];
-					t = t.slice(1);
-					return f;
-				}
-			}
 		
 			function defineOnMessageHandler() {
 				if (arguments.length > 0) {
@@ -98,6 +88,16 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 				this._queue.push(o);
 			}
 		};
+		
+		function shift(t) {
+			if (Array.prototype.shift) {
+				return Array.prototype.shift.call(this);
+			} else {
+				var f = t[0];
+				t = t.slice(1);
+				return f;
+			}
+		}
 	
 		/* establish / reference the worker pool */
 		if (google && google.gears) {
@@ -136,7 +136,7 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 			}
 		} else {
 			throw new Error("No native worker implementation and google gears is not installed");
-		}		
+		}
 	})(
 		/* pass the current context in as window -- so this must be an object which provides a window-like environment... either a WorkerGlobalScope or a window */
 		this,
