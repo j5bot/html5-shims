@@ -91,7 +91,7 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 		
 		function shift(t) {
 			if (Array.prototype.shift) {
-				return Array.prototype.shift.call(this);
+				return Array.prototype.shift.call(t);
 			} else {
 				var f = t[0];
 				t = t.slice(1);
