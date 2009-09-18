@@ -22,7 +22,7 @@
 		
 	<script type="text/javascript" src="/svn/trunk/src/DedicatedWorker.js"></script>
 	<script type="text/javascript">
-			var w = new Worker("workers/simplechild.js");
+			var w = new Worker("workers/child.js");
 
 			// take a peek at the inner workings, if a shimmed worker
 			if (w._source) { document.getElementById("workercode").innerHTML = w._source; }
