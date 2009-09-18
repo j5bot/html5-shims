@@ -31,9 +31,16 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 				"var wgs = new DedicatedWorkerGlobalScope(\""+url+"\");",
 				"wgs.navigator = " + toSource.call(navigator)+";",
 				"wgs.navigator.online=true;",
+				/* "var importScripts=function(a) { return wgs.importScripts(a); },",
+				"    setTimeout=function(a,b){ return wgs.setTimeout(a,b); },",
+				"    setInterval=function(a,b){ return wgs.setInterval(a,b); },",
+				"    clearTimeout=function(a){ return wgs.clearTimeout(a); },",
+				"    clearInterval=function(a){ return wgs.clearInterval(a); },",
+				"    postMessage=function(a,b){ return wgs.postMessage(a,b); },",
+				"    self=wgs,", */
 				"Worker=wgs.Worker=("+InitWorker+")(wgs,"+ toSource.call(navigator) +",'"+ escapeQuotes(wgsSource)+"');",
 				"wgs._loadSource({url: ['" + url + "'], "+
-				"callback: function(scripts){ wgs._scripts = scripts; wgs._execute('importScripts(\""+url+"\")'); } });"
+				"callback: function(scripts){ wgs._scripts = scripts; wgs._execute('importScripts(\""+url+"\")'); wgs._start(); } });"
 			].join("\n");
 					
 			function escapeQuotes(s) {
@@ -80,12 +87,12 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 			return this;
 		}
 		DedicatedWorker.prototype.postMessage = function (o) {
-			if (document) document.getElementById("demoworkers").innerHTML+=("this._id: " + this._id);
+			/* debug code if (document) document.getElementById("demoworkers").innerHTML+=("this._id: " + this._id); */
 			if (workerPool && this._id !== null && this._ready) {
-				if (document) document.getElementById("demoworkers").innerHTML+=("sending message: " + o);
+				/* debug code if (document) document.getElementById("demoworkers").innerHTML+=("sending message: " + o); */
 				workerPool.sendMessage(o,this._id);
 			} else {
-				if (document) document.getElementById("demoworkers").innerHTML+=("queueing message: " + o);
+				/* debug code if (document) document.getElementById("demoworkers").innerHTML+=("queueing message: " + o); */
 				this._queue.push(o);
 			}
 		};
@@ -116,7 +123,7 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 								with (workers["w"+msg.sender]) {
 									_ready = true;
 									/* dequeue messages waiting to be sent */
-									if (document) document.getElementById("demoworkers").innerHTML+=("queue length: " + _queue.length);
+									/* debug code if (document) document.getElementById("demoworkers").innerHTML+=("queue length: " + _queue.length); */
 									while (_queue.length > 0) {
 										postMessage(shift(_queue));
 									}

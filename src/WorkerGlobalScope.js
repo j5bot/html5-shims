@@ -11,7 +11,9 @@
         and limitations under the License.
 */
 function WorkerGlobalScope (url) {
-    
+	/* hide scope definition */
+    DedicatedWorkerGlobalScope = SharedWorkerGlobalScope = WorkerGlobalScope = undefined;
+
     /* WorkerGlobalScope abstract interface */
     /* readonly attribute WorkerGlobalScope */
     this.self = this;
@@ -69,6 +71,9 @@ function WorkerGlobalScope (url) {
     
     /* cache of scripts to be loaded via importScripts */
     this._scripts = {};
+
+	/* message queue */
+	this._queue = [];
     
     this._parent = null;
     
@@ -93,7 +98,7 @@ function WorkerGlobalScope (url) {
                     } else if (msg.sender === wgs._parent){
                     /* message coming from the parent */
                         wgs.onmessage({data:msg.body});
-						throw new Error("msg: " + msg.body + ", " + wgs.onmessage.toSource());
+						/* debug code throw new Error("msg: " + msg.body + ", " + wgs.onmessage.toSource()); */
                     } else {
                         /*
                         message is not from a parent or child worker
@@ -119,7 +124,11 @@ function DedicatedWorkerGlobalScope (url) {
     var t = new WorkerGlobalScope(url);
     
     /* attribute Function onmessage */
-    t.onmessage = function () {};
+    t.onmessage = function (msg) {
+		if (!this._ready) {
+			this._queue.push(msg);
+		}
+	};
     
     return t;
 }
@@ -190,14 +199,25 @@ function ApplicationCache() {
 }
 
 SharedWorkerGlobalScope.prototype = DedicatedWorkerGlobalScope.prototype = WorkerGlobalScope.prototype = {
-
     /* private, implementation specific methods */
+	/* mark that the worker is started, and dequeue any messages waiting */
+	_start: function() {
+		this._ready = true;
+		var queuelength = this._queue.length;
+		/* dequeue messages that are waiting */
+		while (this._queue.length > 0) {
+			var m = this._queue[0];
+			this._queue = this._queue.slice(1);
+			this.onmessage(m);
+		}
+	},
+
     /* Execute the given code in the worker global scope (using with) */
     _execute: function(source) {
         /* debugging code: this.self.postMessage(source.toSource()); */
         /* executing an empty script will throw an error ... when we find an empty script we put a comment in there */
         if (source.length===0) { throw new Error("empty source provided, cannot executed"); }
-        Function("with (this.self) { " + source + " }").call(this);
+        Function("with(this) { " + source + " } ").call(this);
     },
     
     _loadSource: function(options) {
@@ -210,6 +230,8 @@ SharedWorkerGlobalScope.prototype = DedicatedWorkerGlobalScope.prototype = Worke
         
             XMLHttpRequest = this.XMLHttpRequest,
             re = /importScripts\(["']{1}([^"']*)["']{1}\)/mig,
+			funcre = /^function\s([^\s(]*)\(/mig,
+			funcreplace = "$1=function (",
             location = this.location;
 
         function loadMore () {
@@ -248,7 +270,7 @@ SharedWorkerGlobalScope.prototype = DedicatedWorkerGlobalScope.prototype = Worke
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState===4) {
                         if (xhr.responseText.length!==0) {
-                            scripts[url]={source: xhr.responseText, loaded: true};
+                            scripts[url]={source: xhr.responseText.replace(funcre,funcreplace), loaded: true};
                             test(xhr.responseText);
                             } else {
                             scripts[url]={source:"/* empty script */", loaded: true};
