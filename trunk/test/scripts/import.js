@@ -1,3 +1,3 @@
-function importedFunction () {
+function importedFunction() {
 	return "i was imported";
 }
