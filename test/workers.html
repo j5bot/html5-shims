@@ -13,7 +13,7 @@
 </head>
 
 <body>
-	<h1>Web Workers API Shim (on top of Google Gears)</h1>
+	<h1>Web Workers API Shim Core &amp; Child Workers Test Suite</h1>
 		
 	<textarea rows="8" cols="100" id="demoworkers"></textarea>
 	
@@ -28,14 +28,14 @@
 			if (w._source) { document.getElementById("workercode").innerHTML = w._source; }
 
 			w.onmessage = function(event) {
-				document.getElementById("demoworkers").value+=event.data + "\n";
+				document.getElementById("demoworkers").innerHTML+=event.data + "\n";
 				
 				// for all tests, echo back
 				if (event.data.indexOf && event.data.indexOf("testing") != -1) { w.postMessage(event.data.replace("testing","tested")); }
 			};
-			
 			// start the tests, providing the role to the first child worker
 			w.postMessage("worker");
+			w.postMessage("another message from parent");
 	</script>
 </body>
 </html>

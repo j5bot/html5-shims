@@ -31,13 +31,6 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 				"var wgs = new DedicatedWorkerGlobalScope(\""+url+"\");",
 				"wgs.navigator = " + toSource.call(navigator)+";",
 				"wgs.navigator.online=true;",
-				/* "var importScripts=function(a) { return wgs.importScripts(a); },",
-				"    setTimeout=function(a,b){ return wgs.setTimeout(a,b); },",
-				"    setInterval=function(a,b){ return wgs.setInterval(a,b); },",
-				"    clearTimeout=function(a){ return wgs.clearTimeout(a); },",
-				"    clearInterval=function(a){ return wgs.clearInterval(a); },",
-				"    postMessage=function(a,b){ return wgs.postMessage(a,b); },",
-				"    self=wgs,", */
 				"Worker=wgs.Worker=("+InitWorker+")(wgs,"+ toSource.call(navigator) +",'"+ escapeQuotes(wgsSource)+"');",
 				"wgs._loadSource({url: ['" + url + "'], "+
 				"callback: function(scripts){ wgs._scripts = scripts; wgs._execute('importScripts(\""+url+"\")'); wgs._start(); } });"
@@ -67,10 +60,10 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 				/* create the Gears worker process */
 				this._ready = false;
 				this._id = workerPool.createWorker(this._source);
+				/* debug code workerPool.sendMessage("created gears worker: " + this._id,0); */
 				workers["w"+this._id] = this;
 				/* upon receipt of this message, the WorkerGlobalScope will entangle with the worker and redefine it's onmessage method */
 				workerPool.sendMessage("{{syn}}",this._id);
-				/* debug code: throw new Error("worker pool for " + this._id + " has handler: " + (wom || wgs.wom || this.wom).toSource()); */
 			}
 
 			/* we can only create the worker after the onmessage handler is defined
@@ -81,7 +74,7 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 			/* for IE / others */
 			} else {
 				var t = this;
-				var interval = window.setInterval(function(){ if (typeof t.onmessage != "undefined") { window.clearInterval(interval); defineOnMessageHandler.call(t); }},10);
+				var interval = window.setInterval(function(){ if (typeof t.onmessage != "undefined") { window.clearInterval(interval); defineOnMessageHandler.call(t); } else { throw new Error("can't find onmessage"); }},1000);
 				delete t; delete interval;
 			}
 			return this;
@@ -89,24 +82,12 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 		DedicatedWorker.prototype.postMessage = function (o) {
 			/* debug code if (document) document.getElementById("demoworkers").innerHTML+=("this._id: " + this._id); */
 			if (workerPool && this._id !== null && this._ready) {
-				/* debug code if (document) document.getElementById("demoworkers").innerHTML+=("sending message: " + o); */
 				workerPool.sendMessage(o,this._id);
 			} else {
-				/* debug code if (document) document.getElementById("demoworkers").innerHTML+=("queueing message: " + o); */
 				this._queue.push(o);
 			}
 		};
 		
-		function shift(t) {
-			if (Array.prototype.shift) {
-				return Array.prototype.shift.call(t);
-			} else {
-				var f = t[0];
-				t = t.slice(1);
-				return f;
-			}
-		}
-	
 		/* establish / reference the worker pool */
 		if (google && google.gears) {
 			if (google.gears.factory.getPermission("HTML5 Web Worker Emulator",null,"We use Google Gears to emulate the HTML5 Web Worker API and provide a faster experience for you.")) {
@@ -123,9 +104,11 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 								with (workers["w"+msg.sender]) {
 									_ready = true;
 									/* dequeue messages waiting to be sent */
-									/* debug code if (document) document.getElementById("demoworkers").innerHTML+=("queue length: " + _queue.length); */
 									while (_queue.length > 0) {
-										postMessage(shift(_queue));
+										/* debug code */
+										var mo = _queue[0];
+										_queue = _queue.slice(1);									
+										postMessage(mo);
 									}
 								}
 							} else {
@@ -133,7 +116,8 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 								workers["w"+msg.sender].onmessage({data:msg.body});
 							}
 						} else {
-							throw new Error("w" + msg.sender + " does not exist? message is: " + msg.body);
+							// message from grandchild or lower
+							throw new Error("direct message from non-child worker: w" + msg.sender + " sent " + msg.body);
 						}
 					};
 				}
