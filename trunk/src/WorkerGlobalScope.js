@@ -76,22 +76,35 @@ function WorkerGlobalScope (url) {
 	this._queue = [];
     
     this._parent = null;
+
+	this._ready = false;
     
     /* simple implementation of the entanglement without using ports */
     this._wp = (function (wgs) {
         var wp = google.gears.workerPool;
         wp.onmessage = wgs.wom = function (a,b,msg) {
+			/* debug code wp.sendMessage("\nreceived message: " + msg.body + " from " + msg.sender,0); */
             if (wgs._parent === null && msg.body==="{{syn}}") {
                 wgs._parent = msg.sender;
                 wp.sendMessage("{{ack}}",wgs._parent);
 
                 /* redefine onmessage */
                 wp.onmessage = function(a,b,msg) {
+					/* debug code: */
+					// wp.sendMessage("\nreceived message: " + msg.body + " from " + msg.sender + ", queue: [" + wgs._queue.join(",") + "], workers: " + !!wgs._workers + ", wgs._ready: " + wgs._ready,0);
                     /* message coming from the inner worker */
                     if (wgs._workers && wgs._workers["w"+msg.sender]) {
                         /* set the worker to ready after ack */
                         if (msg.body==="{{ack}}") {
-                            wgs._workers["w"+msg.sender]._ready=true;
+							with (wgs._workers["w"+msg.sender]) {
+								_ready = true;
+								/* dequeue messages waiting to be sent to child worker */
+								while (_queue.length > 0) {
+									var mo = _queue[0];
+									_queue = _queue.slice(1);							
+									postMessage(mo);
+								}
+							}
                         } else {
                             wgs._workers["w"+msg.sender].onmessage({data:msg.body});
                         }
@@ -210,6 +223,7 @@ SharedWorkerGlobalScope.prototype = DedicatedWorkerGlobalScope.prototype = Worke
 			this._queue = this._queue.slice(1);
 			this.onmessage(m);
 		}
+		// throw new Error("worker started with queue length: " + queuelength);
 	},
 
     /* Execute the given code in the worker global scope (using with) */
@@ -230,7 +244,7 @@ SharedWorkerGlobalScope.prototype = DedicatedWorkerGlobalScope.prototype = Worke
         
             XMLHttpRequest = this.XMLHttpRequest,
             re = /importScripts\(["']{1}([^"']*)["']{1}\)/mig,
-			funcre = /^function\s([^\s(]*)\(/mig,
+			funcre = /^\s*function\s([^\s(]*)\(/mig,
 			funcreplace = "$1=function (",
             location = this.location;
 
@@ -400,5 +414,9 @@ DedicatedWorkerGlobalScope.prototype.postMessage = function (message, ports) {
 
     The postMessage() method on DedicatedWorkerGlobalScope objects must act as if, when invoked, it immediately invoked the method of the same name on the port, with the same arguments, and returned the same return value.
     */
-    this._wp.sendMessage(message,this._parent);
+	if (this._parent !== null) {
+    	this._wp.sendMessage(message,this._parent);
+	} else {
+		throw new Error("tried to send message (" + msg + ") without having parent");
+	}
 };
