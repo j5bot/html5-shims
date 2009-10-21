@@ -19,7 +19,9 @@
 */
 
 if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
-	Worker = (function InitWorker(window,navigator,wgsSource){
+  // hide the innards
+  (function() {
+	window["Worker"] = (function InitWorker(window,navigator,wgsSource){
 		function DedicatedWorker(url) {
 			this._ready = false;
 			this._queue = [];
@@ -150,4 +152,5 @@ if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
 				window["html5-shim.baseURL"] + "WorkerGlobalScope.js"
 			)
 		);
+  })();
 }
