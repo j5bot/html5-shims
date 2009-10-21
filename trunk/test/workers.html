@@ -8,7 +8,18 @@
 	<script type="text/javascript" src="/svn/trunk/src/gears_init.js"></script>
 	<script type="text/javascript" src="/svn/trunk/test/jsunity/jsunity.js"></script>
 	<script type="text/javascript">
+		
 		window["html5-shim.baseURL"] = "/svn/trunk/src/";
+		
+		function runTest (testName,func) {
+			testName = testName.indexOf("test")===0 ? testName : "test" + testName;
+			var tst = {};
+			tst[testName]=func;
+			return jsUnity.run(tst);
+		}
+		jsUnity.log = function (msg) {
+			document.getElementById("demoworkers").innerHTML+=msg + "\n";
+		};
 	</script>
 </head>
 
@@ -22,6 +33,7 @@
 		
 	<script type="text/javascript" src="/svn/trunk/src/DedicatedWorker.js"></script>
 	<script type="text/javascript">
+			runTest("InitWorkerUndefined",function() { jsUnity.assertions.assertEqual(typeof(InitWorker),"undefined","init worker is undefined"); });
 			var w = new Worker("workers/child.js");
 
 			// take a peek at the inner workings, if a shimmed worker
