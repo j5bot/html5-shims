@@ -15,7 +15,6 @@
 	a shim implementing the HTML5 web worker specification on top of google gears
 	
 	@author Jonathan 'J5' Cook (jonathan.j5.cook@gmail.com)
-	@impetus Andrea Giammarchi (http://webreflection.blogspot.com)
 */
 
 if (typeof Worker === "undefined" || Worker.prototype.constructor === Worker) {
